@@ -1,0 +1,31 @@
+te a resource group.
+RgName="AzureCls"
+Location="eastus"
+
+# Create a virtual network with a subnet.
+vnetname3="sreenuvnet"
+addressprefix="10.0.0.0/22"
+subnetname3="subnet3"
+subnetprefix="10.0.0.0/24"
+
+# Create a network security group for the subnet.
+nsgname3="mynsg3"
+
+# Create an NSG rule to allow ssh traffic in from the Internet to the subnet.
+nsgrulename3="ALLOW-SSH-ALL"
+priority3="100"
+
+
+# Associate the front-end NSG to the  subnet.
+# - -network-security-group MyNsg-subnet3
+
+# Create a public IP address for the web server VM.
+publicIpname3="MyPublicIP-Web"
+
+
+# Create a Web Server VM in the front-end subnet.
+vmname3="sreenuvm3"
+image="UbuntuLTS"
+imagesize3="Standard_B1s"
+adminusername="sreenu"
+

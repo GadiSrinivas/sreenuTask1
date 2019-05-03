@@ -1,0 +1,61 @@
+ource var3
+
+# Create a resource group.
+az group create \
+  --name $RgName \
+  --location $Location
+
+# Create a virtual network with a subnet.
+az network vnet create \
+  --name vnetname3 \
+  --resource-group $RgName \
+  --location $Location \
+  --address-prefix $addressprefix \
+  --subnet-name $subnetname3 \
+  --subnet-prefix $subnetprefix
+
+
+# Create a network security group for the subnet.
+az network nsg create \
+  --resource-group $RgName \
+  --name $nsgname3 \
+  --location $Location
+
+# Create an NSG rule to allow ssh traffic in from the Internet to the subnet.
+az network nsg rule create \
+  --resource-group $RgName \
+  --nsg-name $nsgname3-$subnetname \
+  --name $nsgrulename3 \
+  --access Allow \
+  --protocol Tcp \
+  --direction Inbound \
+  --priority $priority3 \
+  --source-address-prefix Internet \
+  --source-port-range "*" \
+  --destination-address-prefix "*" \
+  --destination-port-range 22
+
+# Associate the front-end NSG to the  subnet.
+az network vnet subnet update \
+  --vnet-name $vnetname3 \
+  --name subnet3 \
+  --resource-group $RgName \
+  --network-security-group $nsgname3-$subnetname
+
+
+# Create a public IP address for the web server VM.
+az network public-ip create \
+  --resource-group $RgName \
+  --name $publicIpname3
+
+# Create a Web Server VM in the front-end subnet.
+az vm create \
+  --resource-group $RgName \
+  --name $vmname3 \
+  --image $image \
+  --admin-username $adminusername \
+ --size $imagesize3 \
+  --generate-ssh-keys
+
+
+
